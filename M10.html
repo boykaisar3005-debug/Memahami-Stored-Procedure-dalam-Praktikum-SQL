@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Stored Procedure II - Praktikum Minggu 10</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      background:#f1f5f9;
+      color:#1e293b;
+      line-height:1.8;
+    }
+
+    header{
+      background:#0f172a;
+      color:white;
+      padding:40px;
+      text-align:center;
+    }
+
+    header h1{
+      font-size:40px;
+      margin-bottom:10px;
+    }
+
+    .container{
+      width:90%;
+      max-width:1100px;
+      margin:30px auto;
+    }
+
+    .card{
+      background:white;
+      padding:25px;
+      margin-bottom:25px;
+      border-radius:15px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2{
+      color:#2563eb;
+      margin-bottom:15px;
+    }
+
+    h3{
+      margin-top:15px;
+      margin-bottom:10px;
+      color:#0f172a;
+    }
+
+    p{
+      margin-bottom:12px;
+      text-align:justify;
+    }
+
+    ul{
+      margin-left:20px;
+      margin-bottom:10px;
+    }
+
+    pre{
+      background:#0f172a;
+      color:#e2e8f0;
+      padding:15px;
+      border-radius:10px;
+      overflow:auto;
+      margin-top:10px;
+    }
+
+    footer{
+      background:#0f172a;
+      color:white;
+      text-align:center;
+      padding:20px;
+      margin-top:40px;
+    }
+  </style>
+
+</head>
+<body>
+
+<header>
+  <h1>Stored Procedure II</h1>
+  <p>Praktikum SQL Lanjut - Minggu Ke-10</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Identitas Mahasiswa</h2>
+
+    <p><strong>Nama:</strong> M. Chaesar Abdullah</p>
+    <p><strong>NPM:</strong> 24781076</p>
+    <p><strong>Kelas:</strong> 4C</p>
+    <p><strong>Variant:</strong> #15</p>
+  </div>
+
+  <div class="card">
+    <h2>Pendahuluan</h2>
+
+    <p>
+      Pada praktikum minggu ke-10 ini saya mempelajari
+      Stored Procedure lanjutan pada SQL.
+      Materi yang dipelajari meliputi penggunaan
+      multi-parameter, IF/ELSE, parameter OUT,
+      serta operasi DML seperti INSERT, UPDATE,
+      dan DELETE di dalam stored procedure.
+    </p>
+
+    <p>
+      Praktikum dilakukan menggunakan SQL Server
+      Management Studio (SSMS) dan simulator SQL.
+      Melalui praktikum ini saya memahami bagaimana
+      stored procedure dapat digunakan untuk
+      mengelola query yang lebih kompleks dan dinamis.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Multi Parameter pada Stored Procedure</h2>
+
+    <p>
+      Pada materi ini saya mempelajari penggunaan
+      lebih dari satu parameter input pada stored procedure.
+      Multi-parameter digunakan untuk melakukan filter data
+      yang lebih spesifik.
+    </p>
+
+    <pre>
+CREATE PROCEDURE filterMhs
+  @p_prodi INT,
+  @p_thn INT
+AS
+BEGIN
+   SELECT *
+   FROM mahasiswa
+   WHERE idprodi = @p_prodi
+   AND thn_masuk = @p_thn
+END
+    </pre>
+
+    <p>
+      Query tersebut digunakan untuk menampilkan
+      data mahasiswa berdasarkan program studi
+      dan tahun masuk tertentu.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>IF / ELSE pada Stored Procedure</h2>
+
+    <p>
+      Pada praktikum ini saya juga mempelajari
+      penggunaan kontrol alur IF dan ELSE
+      di dalam stored procedure.
+    </p>
+
+    <pre>
+IF @mode = 1
+BEGIN
+   SELECT * FROM mahasiswa
+END
+ELSE
+BEGIN
+   SELECT * FROM dosen
+END
+    </pre>
+
+    <p>
+      Dengan IF dan ELSE, stored procedure dapat
+      menjalankan query berbeda sesuai kondisi tertentu.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Parameter OUT</h2>
+
+    <p>
+      Parameter OUT digunakan untuk menghasilkan
+      nilai keluaran dari stored procedure.
+      Nilai tersebut dapat disimpan ke variabel tertentu.
+    </p>
+
+    <pre>
+CREATE PROCEDURE countMhs
+  @p_prodi INT,
+  @p_count INT OUTPUT
+AS
+BEGIN
+   SELECT @p_count = COUNT(*)
+   FROM mahasiswa
+   WHERE idprodi = @p_prodi
+END
+    </pre>
+
+    <p>
+      Praktikum ini membantu memahami bagaimana
+      stored procedure dapat mengembalikan data
+      hasil perhitungan menggunakan parameter output.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>DML pada Stored Procedure</h2>
+
+    <p>
+      Pada materi ini saya mempelajari penggunaan
+      operasi DML seperti INSERT, UPDATE,
+      dan DELETE di dalam stored procedure.
+    </p>
+
+    <h3>INSERT</h3>
+
+    <pre>
+INSERT INTO mahasiswa(npm, nama)
+VALUES('24781076', 'Chaesar')
+    </pre>
+
+    <h3>UPDATE</h3>
+
+    <pre>
+UPDATE mahasiswa
+SET nama = 'Chaesar Abdullah'
+WHERE npm = '24781076'
+    </pre>
+
+    <h3>DELETE</h3>
+
+    <pre>
+DELETE FROM mahasiswa
+WHERE npm = '24781076'
+    </pre>
+
+    <p>
+      Dengan DML pada stored procedure,
+      proses manipulasi data menjadi lebih terstruktur
+      dan mudah digunakan kembali.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>JOIN dan Fungsi Agregat</h2>
+
+    <p>
+      Praktikum juga membahas penggunaan JOIN
+      antar tabel serta fungsi agregat seperti
+      COUNT(), AVG(), dan SUM().
+    </p>
+
+    <pre>
+SELECT p.nmprodi, COUNT(m.npm) AS jumlah_mahasiswa
+FROM prodi p
+JOIN mahasiswa m
+ON p.idprodi = m.idprodi
+GROUP BY p.nmprodi
+    </pre>
+
+    <p>
+      Query tersebut digunakan untuk menghitung
+      jumlah mahasiswa pada setiap program studi.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Kesimpulan</h2>
+
+    <p>
+      Pada praktikum minggu ke-10 ini saya mempelajari
+      Stored Procedure lanjutan yang mencakup
+      multi-parameter, IF/ELSE, parameter OUT,
+      JOIN, fungsi agregat, dan operasi DML.
+    </p>
+
+    <p>
+      Praktikum ini membantu memahami bagaimana
+      stored procedure digunakan untuk membuat
+      query menjadi lebih dinamis, efisien,
+      dan mudah dikelola dalam database.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 - Praktikum SQL Lanjut Minggu 10
+</footer>
+
+</body>
+</html>
