@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Praktikum Stored Procedure</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body{
+      background:#f1f5f9;
+      color:#1e293b;
+      line-height:1.8;
+    }
+
+    header{
+      background:#0f172a;
+      color:white;
+      padding:40px;
+      text-align:center;
+    }
+
+    header h1{
+      font-size:40px;
+      margin-bottom:10px;
+    }
+
+    .container{
+      width:90%;
+      max-width:1100px;
+      margin:30px auto;
+    }
+
+    .card{
+      background:white;
+      padding:25px;
+      margin-bottom:25px;
+      border-radius:15px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2{
+      margin-bottom:15px;
+      color:#2563eb;
+    }
+
+    h3{
+      margin-top:15px;
+      margin-bottom:10px;
+      color:#0f172a;
+    }
+
+    p{
+      margin-bottom:12px;
+      text-align:justify;
+    }
+
+    ul{
+      margin-left:20px;
+      margin-bottom:10px;
+    }
+
+    pre{
+      background:#0f172a;
+      color:#e2e8f0;
+      padding:15px;
+      border-radius:10px;
+      overflow:auto;
+      margin-top:10px;
+    }
+
+    footer{
+      background:#0f172a;
+      color:white;
+      text-align:center;
+      padding:20px;
+      margin-top:40px;
+    }
+
+    .identity p{
+      margin:5px 0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Memahami Stored Procedure dalam SQL</h1>
+  <p>Praktikum Basis Data - Pertemuan 9</p>
+</header>
+
+<div class="container">
+
+  <div class="card identity">
+    <h2>Identitas Mahasiswa</h2>
+
+    <p><strong>Nama:</strong> M. Chaesar Abdullah</p>
+    <p><strong>NPM:</strong> 24781076</p>
+    <p><strong>Kelas:</strong> 4C</p>
+    <p><strong>Variant:</strong> #15</p>
+    <p><strong>Skor:</strong> 100/100</p>
+  </div>
+
+  <div class="card">
+    <h2>Pendahuluan</h2>
+
+    <p>
+      Pada praktikum minggu ini saya mempelajari tentang
+      Stored Procedure pada SQL Server menggunakan
+      SQL Server Management Studio (SSMS).
+      Stored Procedure merupakan sekumpulan query SQL
+      yang disimpan di dalam database dan dapat dijalankan kembali
+      menggunakan perintah tertentu.
+    </p>
+
+    <p>
+      Praktikum ini membantu saya memahami bagaimana
+      stored procedure dapat digunakan untuk membuat query
+      lebih rapi, efisien, dan mudah digunakan kembali.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Level 1 - Procedure Tanpa Parameter</h2>
+
+    <p>
+      Pada level pertama saya mempelajari cara membuat
+      stored procedure tanpa parameter.
+      Procedure dibuat menggunakan CREATE PROCEDURE
+      dan dijalankan menggunakan EXEC.
+    </p>
+
+    <pre>
+CREATE PROCEDURE tampilMahasiswa
+AS
+BEGIN
+   SELECT * FROM mahasiswa
+END
+    </pre>
+
+    <p>
+      Pada awal praktikum terjadi beberapa error karena
+      menggunakan sintaks MySQL seperti DELIMITER,
+      AUTO_INCREMENT, dan CALL yang tidak didukung
+      di SQL Server.
+    </p>
+
+    <p>
+      Solusi yang dilakukan yaitu mengganti:
+    </p>
+
+    <ul>
+      <li>AUTO_INCREMENT menjadi IDENTITY(1,1)</li>
+      <li>CALL menjadi EXEC</li>
+      <li>DELIMITER diganti menggunakan GO</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Level 2 - Procedure dengan 1 Parameter IN</h2>
+
+    <p>
+      Pada level ini saya membuat stored procedure
+      dengan satu parameter input.
+      Procedure digunakan untuk menampilkan data mahasiswa
+      berdasarkan ID program studi tertentu.
+    </p>
+
+    <pre>
+CREATE PROCEDURE getMahasiswaByProdi
+  @p_idprodi INT
+AS
+BEGIN
+   SELECT npm, nama, idprodi
+   FROM mahasiswa
+   WHERE idprodi = @p_idprodi
+END
+    </pre>
+
+    <p>
+      Procedure dijalankan menggunakan:
+    </p>
+
+    <pre>
+EXEC getMahasiswaByProdi 1
+    </pre>
+
+    <p>
+      Hasil output menampilkan data mahasiswa
+      sesuai program studi yang dipilih.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Level 3 - Procedure dengan 2 Parameter IN</h2>
+
+    <p>
+      Pada level ini saya mempelajari penggunaan
+      dua parameter input pada stored procedure.
+      Query digunakan untuk mencari data mahasiswa
+      berdasarkan program studi dan semester.
+    </p>
+
+    <pre>
+CREATE PROCEDURE cariMahasiswa
+  @p_prodi INT,
+  @p_semester INT
+AS
+BEGIN
+   SELECT *
+   FROM mahasiswa
+   WHERE idprodi = @p_prodi
+   AND semester = @p_semester
+END
+    </pre>
+
+    <pre>
+EXEC cariMahasiswa 1, 4
+    </pre>
+
+    <p>
+      Dengan penggunaan lebih dari satu parameter,
+      proses pencarian data menjadi lebih spesifik
+      dan efisien.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Level 4 - Procedure dengan JOIN</h2>
+
+    <p>
+      Pada level ini saya mempelajari penggunaan
+      JOIN antar tabel di dalam stored procedure.
+      Query digunakan untuk menampilkan data KRS mahasiswa.
+    </p>
+
+    <pre>
+CREATE PROCEDURE tampilDataKRS
+  @p_npm VARCHAR(20)
+AS
+BEGIN
+   SELECT m.npm, m.nama, mk.namamatkul, mk.sks
+   FROM mahasiswa m
+   JOIN krs k ON m.npm = k.npm
+   JOIN matakuliah mk ON k.kodemk = mk.kodemk
+   WHERE m.npm = @p_npm
+END
+    </pre>
+
+    <p>
+      Hasil output menampilkan data mahasiswa,
+      mata kuliah yang diambil, dan jumlah SKS.
+      Penggunaan JOIN membantu menghubungkan
+      beberapa tabel sehingga informasi menjadi lebih lengkap.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Level 5 - Procedure dengan Fungsi Agregat</h2>
+
+    <p>
+      Pada level ini saya mempelajari penggunaan
+      fungsi agregat seperti COUNT, SUM, AVG,
+      MAX, dan MIN pada stored procedure.
+    </p>
+
+    <p>
+      Fungsi agregat digunakan untuk melakukan
+      perhitungan data secara otomatis di dalam database.
+    </p>
+
+    <pre>
+SELECT COUNT(*) AS jumlah_mahasiswa
+FROM mahasiswa
+    </pre>
+
+    <p>
+      Praktikum ini membantu memahami bagaimana
+      database dapat digunakan untuk melakukan
+      pengolahan data dengan lebih cepat dan efisien.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Kesimpulan</h2>
+
+    <p>
+      Pada praktikum ini saya mempelajari konsep
+      Stored Procedure pada SQL Server mulai dari
+      procedure tanpa parameter, parameter input,
+      penggunaan JOIN antar tabel, hingga fungsi agregat.
+    </p>
+
+    <p>
+      Dengan menggunakan stored procedure,
+      query menjadi lebih terstruktur, mudah digunakan kembali,
+      dan mempermudah pengelolaan database yang kompleks.
+    </p>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 - Blog Praktikum Stored Procedure
+</footer>
+
+</body>
+</html>
